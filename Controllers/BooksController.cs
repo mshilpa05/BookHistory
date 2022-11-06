@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookHistory.Models;
 
 namespace BookHistory.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BooksController : ControllerBase
+
+    public class BooksController : BooksApiControllerBase
     {
         private readonly BookContext _context;
 
@@ -20,16 +14,12 @@ namespace BookHistory.Controllers
             _context = context;
         }
 
-        // GET: api/Books
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBook()
+        public override async Task<ActionResult<IEnumerable<Book>>> GetBook()
         {
             return await _context.Book.ToListAsync();
         }
 
-        // GET: api/Books/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(long id)
+        public override async Task<ActionResult<Book>> GetBook(long id)
         {
             var book = await _context.Book.FindAsync(id);
 
@@ -41,10 +31,7 @@ namespace BookHistory.Controllers
             return book;
         }
 
-        // PUT: api/Books/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(long id, Book book)
+        public override async Task<IActionResult> PutBook(long id, Book book)
         {
             if (id != book.Id)
             {
@@ -72,10 +59,7 @@ namespace BookHistory.Controllers
             return NoContent();
         }
 
-        // POST: api/Books
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public override async Task<ActionResult<Book>> PostBook(Book book)
         {
             _context.Book.Add(book);
             await _context.SaveChangesAsync();
@@ -83,9 +67,7 @@ namespace BookHistory.Controllers
             return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
         }
 
-        // DELETE: api/Books/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(long id)
+        public override async Task<IActionResult> DeleteBook(long id)
         {
             var book = await _context.Book.FindAsync(id);
             if (book == null)
