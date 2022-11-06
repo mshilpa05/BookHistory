@@ -4,12 +4,12 @@ using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("BookContext");
 
+// Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<BookContext>(opt =>
-    opt.UseInMemoryDatabase("BookContext"));
+builder.Services.AddSqlite<BookContext>(connectionString);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
