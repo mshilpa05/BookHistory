@@ -26,6 +26,15 @@ namespace BookHistory.Repository
                 .AsNoTracking();
         }
 
+        public IQueryable<T> FindByConditionAndSortByField(Expression<Func<T, bool>> filterExpression,
+            Expression<Func<T, DateTime>> orderByExpression)
+        {
+            return this.BookContext.Set<T>()
+                .Where(filterExpression)
+                .OrderBy(orderByExpression)
+                .AsNoTracking();
+        }
+
         public void Create(T entity)
         {
             this.BookContext.Set<T>().Add(entity);
