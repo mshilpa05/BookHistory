@@ -9,6 +9,6 @@ namespace BookHistory.Controllers
     {
         // GET: api/Audits
         [HttpGet]
-        public abstract Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs(QueryStringParameters auditParameters);
+        public abstract Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs(AuditParameters auditParameters);
     }
 }

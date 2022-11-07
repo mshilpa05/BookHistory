@@ -15,11 +15,11 @@ namespace BookHistory.Controllers
             _repository = repository;
         }
 
-        public override async Task<IActionResult> GetBooks([FromQuery] QueryStringParameters bookParameters)
+        public override async Task<IActionResult> GetBooks()
         {
             try
             {
-                var books = await _repository.Book.GetBooksAsync(bookParameters);
+                var books = await _repository.Book.GetBooksAsync();
 
                 return Ok(books);
             }

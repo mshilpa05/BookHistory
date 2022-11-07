@@ -5,7 +5,7 @@ namespace BookHistory.Repository
 {
     public interface IAuditRepository : IRepositoryBase<Audit>
     {
-        Task<IEnumerable<Audit>> GetAuditsAsync(QueryStringParameters auditParameters);
+        Task<IEnumerable<Audit>> GetAuditsAsync(AuditParameters auditParameters);
     }
 }
 

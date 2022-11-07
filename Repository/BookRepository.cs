@@ -10,11 +10,9 @@ namespace BookHistory.Repository
         {
         }
 
-        public async Task<IEnumerable<Book>> GetBooksAsync(QueryStringParameters bookParameters)
+        public async Task<IEnumerable<Book>> GetBooksAsync()
         {
-            return PagedList<Book>.ToPagedList(FindAll(),
-                bookParameters.PageNumber,
-                bookParameters.PageSize);
+            return FindAll();
         }
         public async Task<Book> GetBookByIdAsync(long bookId)
         {

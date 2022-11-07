@@ -13,7 +13,7 @@ namespace BookHistory.Controllers
             _repository = repository;
         }
 
-        public override async Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs([FromQuery] QueryStringParameters auditParameters)
+        public override async Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs([FromQuery] AuditParameters auditParameters)
         {
             try
             {

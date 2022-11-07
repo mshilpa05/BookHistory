@@ -9,7 +9,7 @@ namespace BookHistory.Controllers
     public abstract class BooksApiControllerBase: ControllerBase
     {
         [HttpGet]
-        public abstract Task<IActionResult> GetBooks(QueryStringParameters bookParameters);
+        public abstract Task<IActionResult> GetBooks();
 
         [HttpGet("{id}")]
         public abstract Task<IActionResult> GetBook(long id);

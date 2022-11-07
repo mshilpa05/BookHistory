@@ -1,6 +1,6 @@
 ﻿namespace BookHistory.Models
 {
-    public class QueryStringParameters
+    public class AuditParameters
     {
         const int maxPageSize = 50;
         public int PageNumber { get; set; } = 1;

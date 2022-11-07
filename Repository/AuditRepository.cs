@@ -11,7 +11,7 @@ namespace BookHistory.Repository
         {
         }
 
-        public async Task<IEnumerable<Audit>> GetAuditsAsync(QueryStringParameters auditParameters)
+        public async Task<IEnumerable<Audit>> GetAuditsAsync(AuditParameters auditParameters)
         {
             return PagedList<Audit>.ToPagedList(FindAll(),
                 auditParameters.PageNumber,
