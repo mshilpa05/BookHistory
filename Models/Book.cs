@@ -1,7 +1,10 @@
-﻿namespace BookHistory.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BookHistory.Models
 {
     public class Book
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }

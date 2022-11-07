@@ -1,44 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using BookHistory.Models;
+using BookHistory.Repository;
 
 namespace BookHistory.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuditsController : ControllerBase
+    public class AuditsController : AuditsApiControllerBase
     {
-        private readonly BookContext _context;
+        private readonly IRepositoryWrapper _repository;
 
-        public AuditsController(BookContext context)
+        public AuditsController(IRepositoryWrapper repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        // GET: api/Audits
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs()
+        public override async Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs([FromQuery] QueryStringParameters auditParameters)
         {
-            return await _context.AuditLogs.ToListAsync();
-        }
-
-        // GET: api/Audits/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Audit>> GetAudit(int id)
-        {
-            var audit = await _context.AuditLogs.FindAsync(id);
-
-            if (audit == null)
+            try
             {
-                return NotFound();
-            }
+                var books = await _repository.Audit.GetAuditsAsync(auditParameters);
 
-            return audit;
+                return Ok(books);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error {ex.Message}");
+            }
         }
     }
 }

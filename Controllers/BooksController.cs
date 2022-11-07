@@ -1,89 +1,119 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookHistory.Models;
+using BookHistory.Repository;
 
 namespace BookHistory.Controllers
 {
 
     public class BooksController : BooksApiControllerBase
     {
-        private readonly BookContext _context;
+        private readonly IRepositoryWrapper _repository;
 
-        public BooksController(BookContext context)
+        public BooksController(IRepositoryWrapper repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public override async Task<ActionResult<IEnumerable<Book>>> GetBook()
+        public override async Task<IActionResult> GetBooks([FromQuery] QueryStringParameters bookParameters)
         {
-            return await _context.Book.ToListAsync();
-        }
-
-        public override async Task<ActionResult<Book>> GetBook(long id)
-        {
-            var book = await _context.Book.FindAsync(id);
-
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return book;
-        }
-
-        public override async Task<IActionResult> PutBook(long id, Book book)
-        {
-            if (id != book.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(book).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var books = await _repository.Book.GetBooksAsync(bookParameters);
+
+                return Ok(books);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!BookExists(id))
+                return StatusCode(500, $"Internal server error {ex.Message}");
+            }
+        }
+
+        public override async Task<IActionResult> GetBook(long id)
+        {
+            try
+            {
+                var book = await _repository.Book.GetBookByIdAsync(id);
+                if (book == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    throw;
+                    return Ok(book);
                 }
             }
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error {ex.Message}");
+            }
         }
 
-        public override async Task<ActionResult<Book>> PostBook(Book book)
+        public override async Task<IActionResult> PutBook(long id, Book book)
         {
-            _context.Book.Add(book);
-            await _context.SaveChangesAsync();
+            try
+            {
+                if (id != book.Id)
+                {
+                    return BadRequest("Book id do not match");
+                }
 
-            return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
+                if (book == null)
+                {
+                    return BadRequest("Request body cannot be empty");
+                }
+
+                _repository.Book.UpdateBook(book);
+                await _repository.SaveAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error {ex.Message}");
+            }
+        }
+
+        public override async Task<IActionResult> PostBook(Book book)
+        {
+            try
+            {
+                if (book == null)
+                {
+                    return BadRequest("Book object is null");
+                }
+                _repository.Book.CreateBook(book);
+                await _repository.SaveAsync();
+
+                return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error {ex.Message}");
+            }
+            
         }
 
         public override async Task<IActionResult> DeleteBook(long id)
         {
-            var book = await _context.Book.FindAsync(id);
-            if (book == null)
+            try
             {
-                return NotFound();
+                var book = await _repository.Book.GetBookByIdAsync(id);
+                if (book == null)
+                {
+                    return NotFound();
+                }
+
+                _repository.Book.DeleteBook(book);
+                await _repository.SaveAsync();
+
+                return NoContent();
             }
-
-            _context.Book.Remove(book);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool BookExists(long id)
-        {
-            return _context.Book.Any(e => e.Id == id);
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error {ex.Message}");
+            }
+            
         }
     }
 }

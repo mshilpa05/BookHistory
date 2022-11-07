@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookHistory.Migrations
 {
     [DbContext(typeof(BookContext))]
-    [Migration("20221106233155_inital")]
-    partial class inital
+    [Migration("20221107034831_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,9 +38,6 @@ namespace BookHistory.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PrimaryKey")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TableName")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")

@@ -38,9 +38,6 @@ namespace BookHistory.Migrations
                     b.Property<string>("PrimaryKey")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TableName")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Type")
                         .HasColumnType("TEXT");
 

@@ -9,16 +9,16 @@ namespace BookHistory.Controllers
     public abstract class BooksApiControllerBase: ControllerBase
     {
         [HttpGet]
-        public abstract Task<ActionResult<IEnumerable<Book>>> GetBook();
+        public abstract Task<IActionResult> GetBooks(QueryStringParameters bookParameters);
 
         [HttpGet("{id}")]
-        public abstract Task<ActionResult<Book>> GetBook(long id);
+        public abstract Task<IActionResult> GetBook(long id);
 
         [HttpPut("{id}")]
         public abstract Task<IActionResult> PutBook(long id, Book book);
 
         [HttpPost]
-        public abstract Task<ActionResult<Book>> PostBook(Book book);
+        public abstract Task<IActionResult> PostBook(Book book);
 
 
         [HttpDelete("{id}")]

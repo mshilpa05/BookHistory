@@ -26,7 +26,6 @@ namespace BookHistory.Models
                 if (entry.Entity is Audit || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
                     continue;
                 var auditEntry = new AuditEntry(entry);
-                auditEntry.TableName = entry.Entity.GetType().Name;
                 auditEntries.Add(auditEntry);
                 foreach (var property in entry.Properties)
                 {

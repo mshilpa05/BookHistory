@@ -1,10 +1,14 @@
 using BookHistory.Models;
+using BookHistory.Repository;
+using FluentAssertions.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("BookContext");
+
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 // Add services to the container.
 builder.Services.AddControllers();
