@@ -43,14 +43,12 @@ namespace BookHistory.Models
                             break;
                         case EntityState.Deleted:
                             auditEntry.AuditType = Enums.AuditType.Delete;
-                            auditEntry.OldValues[propertyName] = property.OriginalValue;
                             break;
                         case EntityState.Modified:
                             if (property.IsModified)
                             {
                                 auditEntry.ChangedColumns.Add(propertyName);
                                 auditEntry.AuditType = Enums.AuditType.Update;
-                                auditEntry.OldValues[propertyName] = property.OriginalValue;
                                 auditEntry.NewValues[propertyName] = property.CurrentValue;
                             }
                             break;
