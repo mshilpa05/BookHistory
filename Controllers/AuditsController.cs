@@ -17,6 +17,11 @@ namespace BookHistory.Controllers
         {
             try
             {
+                if (auditParameters.endYear < auditParameters.startYear)
+                {
+                    return BadRequest("EndYear cannot be earlier than start year");
+                }
+
                 var books = await _repository.Audit.GetAuditsAsync(auditParameters);
 
                 return Ok(books);

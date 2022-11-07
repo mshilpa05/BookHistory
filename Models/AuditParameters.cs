@@ -17,5 +17,9 @@
                 _pageSize = (value > maxPageSize) ? maxPageSize : value;
             }
         }
+
+        // To filter and show dates between two years
+        public uint startYear { get; set; }
+        public uint endYear { get; set; } = (uint)DateTime.Now.Year;
     }
 }
