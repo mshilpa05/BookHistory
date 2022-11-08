@@ -1,4 +1,5 @@
 ﻿using BookHistory.Models;
+using BookHistory.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookHistory.Controllers
@@ -9,5 +10,8 @@ namespace BookHistory.Controllers
     {
         [HttpGet]
         public abstract Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs(AuditParameters auditParameters);
+
+        [HttpGet("/actionCount")]
+        public abstract Task<ActionResult<IEnumerable<AuditGroupedByBookId>>> GetActionCountPerBook();
     }
 }

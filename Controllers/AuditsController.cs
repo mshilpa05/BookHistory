@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookHistory.Models;
 using BookHistory.Repository;
+using BookHistory.Models.DTOs;
 
 namespace BookHistory.Controllers
 {
@@ -22,9 +23,23 @@ namespace BookHistory.Controllers
                     return BadRequest("EndYear cannot be earlier than start year");
                 }
 
-                var books = await _repository.Audit.GetAuditsAsync(auditParameters);
+                var audits = await _repository.Audit.GetAuditsAsync(auditParameters);
 
-                return Ok(books);
+                return Ok(audits);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error {ex.Message}");
+            }
+        }
+
+        public override async Task<ActionResult<IEnumerable<AuditGroupedByBookId>>> GetActionCountPerBook()
+        {
+            try
+            {
+                var actionCountPerBookId = _repository.Audit.GetActionCount();
+
+                return Ok(actionCountPerBookId);
             }
             catch (Exception ex)
             {
