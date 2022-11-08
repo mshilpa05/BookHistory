@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using BookHistory.Models;
 using BookHistory.Repository;
+using AutoMapper;
+using BookHistory.Models.DTOs;
 
 namespace BookHistory.Controllers
 {
@@ -9,10 +11,12 @@ namespace BookHistory.Controllers
     public class BooksController : BooksApiControllerBase
     {
         private readonly IRepositoryWrapper _repository;
+        private readonly IMapper _mapper;
 
-        public BooksController(IRepositoryWrapper repository)
+        public BooksController(IRepositoryWrapper repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public override async Task<IActionResult> GetBooks()
@@ -21,7 +25,7 @@ namespace BookHistory.Controllers
             {
                 var books = await _repository.Book.GetBooksAsync();
 
-                return Ok(books);
+                return Ok(books.Select(book => _mapper.Map<BookViewDTO>(book)));
             }
             catch (Exception ex)
             {
@@ -29,7 +33,7 @@ namespace BookHistory.Controllers
             }
         }
 
-        public override async Task<IActionResult> GetBookById(long id)
+        public override async Task<IActionResult> GetBookById(string id)
         {
             try
             {
@@ -49,11 +53,11 @@ namespace BookHistory.Controllers
             }
         }
 
-        public override async Task<IActionResult> UpdateBook(long id, Book book)
+        public override async Task<IActionResult> UpdateBook(string id, Book book)
         {
             try
             {
-                if (id != book.Id)
+                if (!string.Equals(id, book.Id))
                 {
                     return BadRequest("Book id do not match");
                 }
@@ -75,14 +79,17 @@ namespace BookHistory.Controllers
             }
         }
 
-        public override async Task<IActionResult> CreateBook(Book book)
+        public override async Task<IActionResult> CreateBook(BookCreateDTO bookCreateDTO)
         {
             try
             {
-                if (book == null)
+                if (bookCreateDTO == null)
                 {
                     return BadRequest("Book object is null");
                 }
+
+                var book = _mapper.Map<Book>(bookCreateDTO);
+                book.Id = Guid.NewGuid().ToString();
                 _repository.Book.CreateBook(book);
                 await _repository.SaveAsync();
 
@@ -95,7 +102,7 @@ namespace BookHistory.Controllers
             
         }
 
-        public override async Task<IActionResult> DeleteBook(long id)
+        public override async Task<IActionResult> DeleteBook(string id)
         {
             try
             {

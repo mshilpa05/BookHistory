@@ -1,4 +1,5 @@
 ﻿using BookHistory.Models;
+using BookHistory.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,16 +13,16 @@ namespace BookHistory.Controllers
         public abstract Task<IActionResult> GetBooks();
 
         [HttpGet("{id}")]
-        public abstract Task<IActionResult> GetBookById(long id);
+        public abstract Task<IActionResult> GetBookById(string id);
 
         [HttpPut("{id}")]
-        public abstract Task<IActionResult> UpdateBook(long id, Book book);
+        public abstract Task<IActionResult> UpdateBook(string id, Book book);
 
         [HttpPost]
-        public abstract Task<IActionResult> CreateBook(Book book);
+        public abstract Task<IActionResult> CreateBook(BookCreateDTO bookCreateDTO);
 
 
         [HttpDelete("{id}")]
-        public abstract Task<IActionResult> DeleteBook(long id);
+        public abstract Task<IActionResult> DeleteBook(string id);
     }
 }

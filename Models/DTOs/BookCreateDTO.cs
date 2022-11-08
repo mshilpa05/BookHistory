@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace BookHistory.Models
+﻿namespace BookHistory.Models.DTOs
 {
-    public class Book
+    public class BookCreateDTO
     {
-        public string Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public DateTime PublishDate { get; set; }

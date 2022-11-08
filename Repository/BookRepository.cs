@@ -14,7 +14,7 @@ namespace BookHistory.Repository
         {
             return FindAll();
         }
-        public async Task<Book> GetBookByIdAsync(long bookId)
+        public async Task<Book> GetBookByIdAsync(string bookId)
         {
             return await FindByCondition(book => book.Id.Equals(bookId))
                 .FirstOrDefaultAsync();

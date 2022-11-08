@@ -11,7 +11,7 @@ namespace BookHistory.Models
             Entry = entry;
         }
         public EntityEntry Entry { get; }
-        public long KeyValue { get; set; }
+        public string KeyValue { get; set; }
         public string Values { get; set; } = string.Empty;
         public AuditType AuditType { get; set; }
         public string ChangedColumns { get; set; }

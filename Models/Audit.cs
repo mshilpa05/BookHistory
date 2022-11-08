@@ -10,6 +10,6 @@ namespace BookHistory.Models
         public DateTime DateTime { get; set; }
         public string? Values { get; set; }
         public string? AffectedColumns { get; set; }
-        public long BookId { get; set; }
+        public string BookId { get; set; }
     }
 }
