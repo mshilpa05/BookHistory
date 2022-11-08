@@ -16,8 +16,7 @@ namespace BookHistory.Repository
         }
         public async Task<Book> GetBookByIdAsync(string bookId)
         {
-            return await FindByCondition(book => book.Id.Equals(bookId))
-                .FirstOrDefaultAsync();
+            return await FindByCondition(book => book.Id.Equals(bookId)).FirstAsync();
         }
 
         public void CreateBook(Book book)

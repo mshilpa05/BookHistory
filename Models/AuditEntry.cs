@@ -11,10 +11,10 @@ namespace BookHistory.Models
             Entry = entry;
         }
         public EntityEntry Entry { get; }
-        public string KeyValue { get; set; }
+        public string KeyValue { get; set; } = string.Empty;    
         public string Values { get; set; } = string.Empty;
         public AuditType AuditType { get; set; }
-        public string ChangedColumns { get; set; }
+        public string ChangedColumns { get; set; } = string.Empty; 
         public Audit ToAudit()
         {
             var audit = new Audit

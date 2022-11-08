@@ -21,5 +21,8 @@
         // To filter and show dates between two years
         public uint StartYear { get; set; }
         public uint EndYear { get; set; } = (uint)DateTime.Now.Year;
+
+        // To search for logs corresponding to a particular book
+        public string BookId { get; set; } = string.Empty;
     }
 }

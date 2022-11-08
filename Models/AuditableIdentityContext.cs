@@ -39,7 +39,7 @@ namespace BookHistory.Models
 
                     if (property.Metadata.IsPrimaryKey())
                     {
-                        auditEntry.KeyValue = (string)property.CurrentValue;
+                        auditEntry.KeyValue = property.CurrentValue as string;
                         continue;
                     }
 

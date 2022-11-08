@@ -14,11 +14,21 @@ namespace BookHistory.Repository
 
         public async Task<IEnumerable<Audit>> GetAuditsAsync(AuditParameters auditParameters)
         {
-            var owners = FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
+            IQueryable<Audit> audits;
+            if (string.IsNullOrEmpty(auditParameters.BookId)) { 
+                audits = FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
                                         audit.DateTime.Year <= auditParameters.EndYear,
                                         audit => audit.DateTime);
+            }
+            else
+            {
+                audits = FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
+                                        audit.DateTime.Year <= auditParameters.EndYear &&
+                                        audit.BookId == auditParameters.BookId,
+                                        audit => audit.DateTime);
+            }
 
-            return PagedList<Audit>.ToPagedList(owners,
+            return PagedList<Audit>.ToPagedList(audits,
                 auditParameters.PageNumber,
                 auditParameters.PageSize);
         }
