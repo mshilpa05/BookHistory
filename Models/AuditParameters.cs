@@ -19,7 +19,7 @@
         }
 
         // To filter and show dates between two years
-        public uint startYear { get; set; }
-        public uint endYear { get; set; } = (uint)DateTime.Now.Year;
+        public uint StartYear { get; set; }
+        public uint EndYear { get; set; } = (uint)DateTime.Now.Year;
     }
 }

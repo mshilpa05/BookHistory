@@ -12,13 +12,13 @@ namespace BookHistory.Controllers
         public abstract Task<IActionResult> GetBooks();
 
         [HttpGet("{id}")]
-        public abstract Task<IActionResult> GetBook(long id);
+        public abstract Task<IActionResult> GetBookById(long id);
 
         [HttpPut("{id}")]
-        public abstract Task<IActionResult> PutBook(long id, Book book);
+        public abstract Task<IActionResult> UpdateBook(long id, Book book);
 
         [HttpPost]
-        public abstract Task<IActionResult> PostBook(Book book);
+        public abstract Task<IActionResult> CreateBook(Book book);
 
 
         [HttpDelete("{id}")]

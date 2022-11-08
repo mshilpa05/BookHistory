@@ -13,8 +13,8 @@ namespace BookHistory.Repository
 
         public async Task<IEnumerable<Audit>> GetAuditsAsync(AuditParameters auditParameters)
         {
-            var owners = FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.startYear &&
-                                        audit.DateTime.Year <= auditParameters.endYear,
+            var owners = FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
+                                        audit.DateTime.Year <= auditParameters.EndYear,
                                         audit => audit.DateTime);
 
             return PagedList<Audit>.ToPagedList(owners,

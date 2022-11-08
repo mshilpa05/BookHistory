@@ -29,7 +29,7 @@ namespace BookHistory.Controllers
             }
         }
 
-        public override async Task<IActionResult> GetBook(long id)
+        public override async Task<IActionResult> GetBookById(long id)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace BookHistory.Controllers
             }
         }
 
-        public override async Task<IActionResult> PutBook(long id, Book book)
+        public override async Task<IActionResult> UpdateBook(long id, Book book)
         {
             try
             {
@@ -63,6 +63,7 @@ namespace BookHistory.Controllers
                     return BadRequest("Request body cannot be empty");
                 }
 
+
                 _repository.Book.UpdateBook(book);
                 await _repository.SaveAsync();
 
@@ -74,7 +75,7 @@ namespace BookHistory.Controllers
             }
         }
 
-        public override async Task<IActionResult> PostBook(Book book)
+        public override async Task<IActionResult> CreateBook(Book book)
         {
             try
             {
@@ -85,7 +86,7 @@ namespace BookHistory.Controllers
                 _repository.Book.CreateBook(book);
                 await _repository.SaveAsync();
 
-                return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
+                return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, book);
             }
             catch (Exception ex)
             {

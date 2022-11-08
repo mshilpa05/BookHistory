@@ -17,7 +17,7 @@ namespace BookHistory.Controllers
         {
             try
             {
-                if (auditParameters.endYear < auditParameters.startYear)
+                if (auditParameters.EndYear < auditParameters.StartYear)
                 {
                     return BadRequest("EndYear cannot be earlier than start year");
                 }

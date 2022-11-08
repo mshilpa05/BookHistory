@@ -7,7 +7,6 @@ namespace BookHistory.Controllers
     [ApiController]
     public abstract class AuditsApiControllerBase : ControllerBase
     {
-        // GET: api/Audits
         [HttpGet]
         public abstract Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs(AuditParameters auditParameters);
     }
