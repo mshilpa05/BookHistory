@@ -52,14 +52,13 @@ namespace BookHistory.Migrations
                 name: "AuditLogs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Type = table.Column<string>(type: "TEXT", nullable: true),
                     DateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    OldValues = table.Column<string>(type: "TEXT", nullable: true),
-                    NewValues = table.Column<string>(type: "TEXT", nullable: true),
+                    Values = table.Column<string>(type: "TEXT", nullable: true),
                     AffectedColumns = table.Column<string>(type: "TEXT", nullable: true),
-                    PrimaryKey = table.Column<string>(type: "TEXT", nullable: true)
+                    BookId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,8 +69,7 @@ namespace BookHistory.Migrations
                 name: "Book",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     PublishDate = table.Column<DateTime>(type: "TEXT", nullable: false),

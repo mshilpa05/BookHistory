@@ -19,26 +19,23 @@ namespace BookHistory.Migrations
 
             modelBuilder.Entity("BookHistory.Models.Audit", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AffectedColumns")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NewValues")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OldValues")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PrimaryKey")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Values")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -48,9 +45,8 @@ namespace BookHistory.Migrations
 
             modelBuilder.Entity("BookHistory.Models.Book", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Author")
                         .HasColumnType("TEXT");
