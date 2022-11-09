@@ -10,9 +10,9 @@ namespace BookHistory.Repository
         {
         }
 
-        public IEnumerable<Book> GetBooks()
+        public async Task<IEnumerable<Book>> GetBooks()
         {
-            return FindAll();
+            return await FindAll().ToListAsync();
         }
         public async Task<Book> GetBookByIdAsync(string bookId)
         {

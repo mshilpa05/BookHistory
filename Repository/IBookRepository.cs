@@ -5,7 +5,7 @@ namespace BookHistory.Repository
 {
     public interface IBookRepository : IRepositoryBase<Book>
     {
-        IEnumerable<Book> GetBooks();
+        Task<IEnumerable<Book>> GetBooks();
         Task<Book> GetBookByIdAsync(string bookId);
         void CreateBook(Book book);
         void UpdateBook(Book book);

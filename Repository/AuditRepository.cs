@@ -15,7 +15,7 @@ namespace BookHistory.Repository
         public async Task<IEnumerable<Audit>> GetAuditsAsync(AuditParameters auditParameters)
         {
             List<Audit> audits;
-            if (string.IsNullOrEmpty(auditParameters.BookId)) { 
+            if (string.IsNullOrEmpty(auditParameters.BookId)) {
                 audits = await FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
                                         audit.DateTime.Year <= auditParameters.EndYear,
                                         audit => audit.DateTime);
@@ -35,7 +35,6 @@ namespace BookHistory.Repository
 
         public async Task<IEnumerable<AuditGroupedByBookId>> GetActionCount()
         {
-            // Fix this
             return await FindAll()
                 .GroupBy(a => a.BookId)
                 .Select(a => new AuditGroupedByBookId { BookId = a.Key, AuditLogCount = a.Count() })

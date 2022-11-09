@@ -21,11 +21,11 @@ namespace BookHistory.Controllers
             _logger = logger;
         }
 
-        public override IActionResult GetBooks()
+        public override async Task<IActionResult> GetBooks()
         {
             try
             {
-                var books = _repository.Book.GetBooks();
+                var books = await _repository.Book.GetBooks();
 
                 return Ok(books.Select(book => _mapper.Map<BookViewDTO>(book)));
             }
