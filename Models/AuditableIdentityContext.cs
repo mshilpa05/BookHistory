@@ -21,8 +21,6 @@ namespace BookHistory.Models
 
         private void CreateAuditEntryBeforeSavingChanges()
         {
-            //ChangeTracker.DetectChanges();
-
             var auditEntries = new List<AuditEntry>();
 
             foreach (var entry in ChangeTracker.Entries())

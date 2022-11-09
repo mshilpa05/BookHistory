@@ -29,14 +29,14 @@ namespace BookHistory.Repository
                 .AsNoTracking();
         }
 
-        public async Task<List<T>> FindByConditionAndSortByField(Expression<Func<T, bool>> filterExpression,
+        public IQueryable<T> FindByConditionAndSortByField(Expression<Func<T, bool>> filterExpression,
             Expression<Func<T, DateTime>> orderByExpression)
 
         {
-            return await _dbSet
+            return _dbSet
                 .Where(filterExpression)
                 .OrderBy(orderByExpression)
-                .AsNoTracking().ToListAsync();
+                .AsNoTracking();
         }
 
         public void Create(T entity)

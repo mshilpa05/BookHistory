@@ -18,14 +18,14 @@ namespace BookHistory.Repository
             if (string.IsNullOrEmpty(auditParameters.BookId)) {
                 audits = await FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
                                         audit.DateTime.Year <= auditParameters.EndYear,
-                                        audit => audit.DateTime);
+                                        audit => audit.DateTime).ToListAsync();
             }
             else
             {
                 audits = await FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
                                         audit.DateTime.Year <= auditParameters.EndYear &&
                                         audit.BookId == auditParameters.BookId,
-                                        audit => audit.DateTime);
+                                        audit => audit.DateTime).ToListAsync();
             }
 
             return PagedList<Audit>.ToPagedList(audits,
