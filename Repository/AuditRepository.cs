@@ -14,15 +14,15 @@ namespace BookHistory.Repository
 
         public async Task<IEnumerable<Audit>> GetAuditsAsync(AuditParameters auditParameters)
         {
-            IQueryable<Audit> audits;
+            List<Audit> audits;
             if (string.IsNullOrEmpty(auditParameters.BookId)) { 
-                audits = FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
+                audits = await FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
                                         audit.DateTime.Year <= auditParameters.EndYear,
                                         audit => audit.DateTime);
             }
             else
             {
-                audits = FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
+                audits = await FindByConditionAndSortByField(audit => audit.DateTime.Year >= auditParameters.StartYear &&
                                         audit.DateTime.Year <= auditParameters.EndYear &&
                                         audit.BookId == auditParameters.BookId,
                                         audit => audit.DateTime);
@@ -33,11 +33,13 @@ namespace BookHistory.Repository
                 auditParameters.PageSize);
         }
 
-        public IEnumerable<AuditGroupedByBookId> GetActionCount()
+        public async Task<IEnumerable<AuditGroupedByBookId>> GetActionCount()
         {
-            return BookContext.AuditLogs.GroupBy(a => a.BookId)
-                .Select(a => new AuditGroupedByBookId{ BookId = a.Key, AuditLogCount = a.Count() });
-
+            // Fix this
+            return await FindAll()
+                .GroupBy(a => a.BookId)
+                .Select(a => new AuditGroupedByBookId { BookId = a.Key, AuditLogCount = a.Count() })
+                .ToListAsync();
         }
     }
 }

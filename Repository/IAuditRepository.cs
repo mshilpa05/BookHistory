@@ -8,7 +8,7 @@ namespace BookHistory.Repository
     {
         Task<IEnumerable<Audit>> GetAuditsAsync(AuditParameters auditParameters);
 
-        IEnumerable<AuditGroupedByBookId> GetActionCount();
+        Task<IEnumerable<AuditGroupedByBookId>> GetActionCount();
     }
 }
 

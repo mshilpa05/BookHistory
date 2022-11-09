@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("BookContext");
 
+builder.Logging.AddConsole();
+
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 // Add services to the container.

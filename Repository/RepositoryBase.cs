@@ -1,4 +1,5 @@
 ﻿using BookHistory.Models;
+using BookHistory.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -6,48 +7,51 @@ namespace BookHistory.Repository
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        protected BookContext BookContext { get; set; }
+        private readonly BookContext _bookContext;
+        private readonly DbSet<T> _dbSet;
 
-        public RepositoryBase(BookContext repositoryContext)
+        public RepositoryBase(BookContext bookContext)
         {
-            this.BookContext = repositoryContext;
+            _bookContext = bookContext;
+            _dbSet = _bookContext.Set<T>();
         }
 
         public IQueryable<T> FindAll()
         {
-            return this.BookContext.Set<T>()
+            return _dbSet
                 .AsNoTracking();
         }
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            return this.BookContext.Set<T>()
+            return _dbSet
                 .Where(expression)
                 .AsNoTracking();
         }
 
-        public IQueryable<T> FindByConditionAndSortByField(Expression<Func<T, bool>> filterExpression,
+        public async Task<List<T>> FindByConditionAndSortByField(Expression<Func<T, bool>> filterExpression,
             Expression<Func<T, DateTime>> orderByExpression)
+
         {
-            return this.BookContext.Set<T>()
+            return await _dbSet
                 .Where(filterExpression)
                 .OrderBy(orderByExpression)
-                .AsNoTracking();
+                .AsNoTracking().ToListAsync();
         }
 
         public void Create(T entity)
         {
-            this.BookContext.Set<T>().Add(entity);
+            _dbSet.Add(entity);
         }
 
         public void Update(T entity)
         {
-            this.BookContext.Set<T>().Update(entity);
+            _dbSet.Update(entity);
         }
 
         public void Delete(T entity)
         {
-            this.BookContext.Set<T>().Remove(entity);
+            _dbSet.Remove(entity);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace BookHistory.Models
 
         private void CreateAuditEntryBeforeSavingChanges()
         {
-            ChangeTracker.DetectChanges();
+            //ChangeTracker.DetectChanges();
 
             var auditEntries = new List<AuditEntry>();
 
@@ -55,7 +55,7 @@ namespace BookHistory.Models
                             break;
 
                         case EntityState.Modified:
-                            var originalValue = entry.GetDatabaseValues().GetValue<object>(propertyName);
+                            var originalValue = entry.GetDatabaseValues()?.GetValue<object>(propertyName);
                             if (!string.Equals(property.CurrentValue, originalValue))
                             {
                                 auditEntry.ChangedColumns = auditEntry.ChangedColumns + $"{propertyName} ";

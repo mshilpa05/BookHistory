@@ -8,10 +8,12 @@ namespace BookHistory.Controllers
     public class AuditsController : AuditsApiControllerBase
     {
         private readonly IRepositoryWrapper _repository;
+        private readonly ILogger _logger;
 
-        public AuditsController(IRepositoryWrapper repository)
+        public AuditsController(IRepositoryWrapper repository, ILogger<BooksController> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public override async Task<ActionResult<IEnumerable<Audit>>> GetAuditLogs([FromQuery] AuditParameters auditParameters)
@@ -29,6 +31,7 @@ namespace BookHistory.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.StackTrace);
                 return StatusCode(500, $"Internal server error {ex.Message}");
             }
         }
@@ -37,12 +40,13 @@ namespace BookHistory.Controllers
         {
             try
             {
-                var actionCountPerBookId = _repository.Audit.GetActionCount();
+                var actionCountPerBookId = await _repository.Audit.GetActionCount();
 
                 return Ok(actionCountPerBookId);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.StackTrace);
                 return StatusCode(500, $"Internal server error {ex.Message}");
             }
         }

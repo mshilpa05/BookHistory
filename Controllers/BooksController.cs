@@ -12,23 +12,26 @@ namespace BookHistory.Controllers
     {
         private readonly IRepositoryWrapper _repository;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public BooksController(IRepositoryWrapper repository, IMapper mapper)
+        public BooksController(IRepositoryWrapper repository, IMapper mapper, ILogger<AuditsController> logger)
         {
             _repository = repository;
             _mapper = mapper;
+            _logger = logger;
         }
 
-        public override async Task<IActionResult> GetBooks()
+        public override IActionResult GetBooks()
         {
             try
             {
-                var books = await _repository.Book.GetBooksAsync();
+                var books = _repository.Book.GetBooks();
 
                 return Ok(books.Select(book => _mapper.Map<BookViewDTO>(book)));
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.StackTrace);
                 return StatusCode(500, $"Internal server error {ex.Message}");
             }
         }
@@ -49,6 +52,7 @@ namespace BookHistory.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.StackTrace);
                 return StatusCode(500, $"Internal server error {ex.Message}");
             }
         }
@@ -75,6 +79,7 @@ namespace BookHistory.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.StackTrace);
                 return StatusCode(500, $"Internal server error {ex.Message}");
             }
         }
@@ -97,6 +102,7 @@ namespace BookHistory.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.StackTrace);
                 return StatusCode(500, $"Internal server error {ex.Message}");
             }
             
@@ -119,6 +125,7 @@ namespace BookHistory.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.StackTrace);
                 return StatusCode(500, $"Internal server error {ex.Message}");
             }
             
